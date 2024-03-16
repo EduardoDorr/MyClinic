@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 using Microsoft.OpenApi.Models;
 
 using Serilog;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 using MyClinic.API.Middlewares;
-
 using MyClinic.Patients.DependencyInjection;
 
 namespace MyClinic.API.Configurations;
@@ -24,11 +23,6 @@ public static class ServiceConfiguration
 
         // Add modules
         builder.Services.AddPatientModule(builder.Configuration);
-
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-        });
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
@@ -54,6 +48,8 @@ public static class ServiceConfiguration
                     Url = new Uri("https://github.com/EduardoDorr")
                 }
             });
+
+            s.AddEnumsWithValuesFixFilters();
         });
 
         return builder;
@@ -81,7 +77,7 @@ public static class ServiceConfiguration
     public static void ConfigureSerilog(this WebApplicationBuilder builder)
     {
         Log.Logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(builder.Configuration)
-            .CreateLogger();
+           .ReadFrom.Configuration(builder.Configuration)
+           .CreateLogger();
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+using MyClinic.Common.Models.Pagination;
 using MyClinic.Patients.Domain.Interfaces;
 using MyClinic.Patients.Domain.Entities.Patients;
 using MyClinic.Patients.Persistence.Contexts;
-using MyClinic.Common.Models.Pagination;
 
 namespace MyClinic.Patients.Persistence.Repositories;
 
@@ -24,7 +25,14 @@ public class PatientRepository : IPatientRepository
 
     public async Task<Patient?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Patients.Include(f => f.Insurance).SingleOrDefaultAsync(f => f.Id == id, cancellationToken);
+        return await _dbContext.Patients.Include(p => p.Insurance).SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> IsUniqueAsync(string cpf, string email, CancellationToken cancellationToken = default)
+    {
+        var hasPatient = await _dbContext.Patients.AnyAsync(p => p.Cpf.Number == cpf || p.Email.Address == email, cancellationToken);
+
+        return !hasPatient;
     }
 
     public void Create(Patient patient)

@@ -14,17 +14,23 @@ public static class ResultExtension
 
         var error = result.Errors[0];
 
-        var problemDetails = Results.Problem(
-            statusCode: GetStatusCode(error.Type),
-            title: GetTitle(error.Type),
-            type: GetType(error.Type),
-            extensions: new Dictionary<string, object?>
+        var problemDetails = new ProblemDetails
+        {
+            Detail = GetDetail(error),
+            Status = GetStatusCode(error.Type),
+            Title = GetTitle(error.Type),
+            Type = GetType(error.Type),
+            Extensions = new Dictionary<string, object?>
             {
-                {"errors", new[] {result.Errors} }
-            });
+                {"errors", new[] { result.Errors } }
+            }
+        };
 
-        return (IActionResult)problemDetails;
+        return new ObjectResult(problemDetails);
     }
+
+    private static string GetDetail(IError error) =>
+        error.Message;
 
     private static int GetStatusCode(ErrorType errorType) =>
         errorType switch

@@ -4,15 +4,15 @@ namespace MyClinic.Common.Entities;
 
 public abstract class Person : BaseEntity
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public DateTime BirthDate { get; private set; }
-    public Cpf Cpf { get; private set; }
-    public Email Email { get; private set; }
-    public Telephone Telephone { get; private set; }
-    public Address Address { get; private set; }
-    public BloodData BloodData { get; private set; }
-    public Gender Gender { get; private set; }
+    public string FirstName { get; protected set; }
+    public string LastName { get; protected set; }
+    public DateTime BirthDate { get; protected set; }
+    public Cpf Cpf { get; protected set; }
+    public Email Email { get; protected set; }
+    public Telephone Telephone { get; protected set; }
+    public Address Address { get; protected set; }
+    public BloodData BloodData { get; protected set; }
+    public Gender Gender { get; protected set; }
 
     protected Person() { }
 

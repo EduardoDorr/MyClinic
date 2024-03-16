@@ -69,5 +69,21 @@ public class Patient : Person
         return Result<Patient>.Ok(patient);
     }
 
+    public void Update(Patient patient)
+    {
+        FirstName = patient.FirstName;
+        LastName = patient.LastName;
+        BirthDate = patient.BirthDate;
+        Cpf = patient.Cpf;
+        Email = patient.Email;
+        Telephone = patient.Telephone;
+        Address = patient.Address;
+        BloodData = patient.BloodData;
+        Gender = patient.Gender;
+        Height = patient.Height;
+        Weight = patient.Weight;
+        InsuranceId = patient.InsuranceId;
+    }
+
     public void RaiseEvent(IDomainEvent domainEvent) => RaiseDomainEvent(domainEvent);
 }

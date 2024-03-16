@@ -5,31 +5,31 @@ using MyClinic.Common.Persistences.UnitOfWork;
 using MyClinic.Patients.Domain.Interfaces;
 using MyClinic.Patients.Domain.Entities.Patients;
 
-namespace MyClinic.Patients.Application.Patients.CreatePatient;
+namespace MyClinic.Patients.Application.Patients.UpdatePatient;
 
-public sealed class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Result<Guid>>
+public sealed class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand, Result>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPatientRepository _patientRepository;
 
-    public CreatePatientCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository)
+    public UpdatePatientCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository)
     {
         _unitOfWork = unitOfWork;
         _patientRepository = patientRepository;
     }
 
-    public async Task<Result<Guid>> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
     {
-        var isUnique = await _patientRepository.IsUniqueAsync(request.Cpf, request.Email, cancellationToken);
+        var patient = await _patientRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        if (!isUnique)
-            return Result.Fail<Guid>(PatientErrors.IsNotUnique);
+        if (patient is null)
+            return Result.Fail(PatientErrors.NotFound);
 
         var patientResult = Patient
             .CreateBuilder()
             .WithName(request.FirstName, request.LastName)
             .WithBirthDate(request.BirthDate)
-            .WithDocument(request.Cpf)
+            .WithDocument(patient.Cpf.Number)
             .WithContactInfo(request.Email, request.Telephone)
             .WithAddress(request.Address.Street, request.Address.City, request.Address.State, request.Address.Country, request.Address.ZipCode)
             .WithMedicalInfo(request.BloodData.BloodType, request.BloodData.RhFactor, request.Gender, request.Height, request.Weight)
@@ -37,17 +37,19 @@ public sealed class CreatePatientCommandHandler : IRequestHandler<CreatePatientC
             .Build();
 
         if (!patientResult.Success)
-            return Result.Fail<Guid>(patientResult.Errors);
+            return Result.Fail(patientResult.Errors);
 
-        var patient = patientResult.Value;
+        var patientUpdated = patientResult.Value;
 
-        _patientRepository.Create(patient);
+        patient.Update(patientUpdated);
 
-        var created = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
+        _patientRepository.Update(patient);
 
-        if (!created)
-            return Result.Fail<Guid>(PatientErrors.CannotBeCreated);
+        var updated = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
 
-        return Result.Ok(patient.Id);
+        if (!updated)
+            return Result.Fail(PatientErrors.CannotBeUpdated);
+
+        return Result.Ok();
     }
 }

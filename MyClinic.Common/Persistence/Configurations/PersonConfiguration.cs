@@ -54,9 +54,6 @@ public abstract class PersonConfiguration<TBase> : BaseEntityConfiguration<TBase
                      .HasColumnName("Telephone")
                      .HasMaxLength(11)
                      .IsRequired();
-
-                telephone.HasIndex(d => d.Number)
-                     .IsUnique();
             });
 
         builder.OwnsOne(d => d.Address,

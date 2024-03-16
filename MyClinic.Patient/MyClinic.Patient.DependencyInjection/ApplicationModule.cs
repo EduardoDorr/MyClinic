@@ -1,11 +1,11 @@
-﻿using System.Reflection;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
+using MyClinic.Patients.Application.Patients.Services;
 using MyClinic.Patients.Application.Patients.CreatePatient;
+using MyClinic.Patients.Application.Insurances.Services;
 
 namespace MyClinic.Patients.DependencyInjection;
 
@@ -33,7 +33,7 @@ public static class ApplicationModule
 
     private static IServiceCollection AddValidator(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblyContaining(typeof(CreatePatientCommandValidator), ServiceLifetime.Transient);
         services.AddFluentValidationAutoValidation();
 
         return services;
@@ -41,8 +41,8 @@ public static class ApplicationModule
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        //services.AddTransient<IReportService, ReportService>();
-        //services.AddTransient<IInterestTransactionService, InterestTransactionService>();
+        services.AddTransient<IPatientService, PatientService>();
+        services.AddTransient<IInsuranceService, InsuranceService>();
 
         return services;
     }

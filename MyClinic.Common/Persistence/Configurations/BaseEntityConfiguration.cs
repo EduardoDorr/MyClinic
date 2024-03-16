@@ -16,6 +16,8 @@ public abstract class BaseEntityConfiguration<TBase> : IEntityTypeConfiguration<
 
         builder.HasIndex(b => b.Active);
 
+        builder.HasQueryFilter(b => b.Active);
+
         builder.Property(b => b.CreatedAt)
                .HasColumnType("datetime")
                .IsRequired();

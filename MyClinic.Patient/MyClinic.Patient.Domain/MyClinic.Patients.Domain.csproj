@@ -9,15 +9,6 @@
 
 
 <ItemGroup>
-<Folder Include="DomainEvents" />
-<Folder Include="DomainServices" />
-<Folder Include="Enums" />
-<Folder Include="ValueObjects" />
-</ItemGroup>
-
-
-
-<ItemGroup>
   <ProjectReference Include="..\..\MyClinic.Common\MyClinic.Common.csproj" />
 </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+﻿using MediatR;
+
+using MyClinic.Common.Results;
+using MyClinic.Common.Models.Pagination;
+using MyClinic.Patients.Application.Insurances.Models;
+
+namespace MyClinic.Patients.Application.Insurances.GetInsurances;
+
+public sealed record GetInsurancesQuery(int Page = 1, int PageSize = 10) : IRequest<Result<PaginationResult<InsuranceViewModel>>>;

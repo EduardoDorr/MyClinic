@@ -7,4 +7,6 @@ public interface IPatientRepository
     : IReadableRepository<Patient>,
       ICreatableRepository<Patient>,
       IUpdatableRepository<Patient>
-{ }
+{
+    Task<bool> IsUniqueAsync(string cpf, string email, CancellationToken cancellationToken = default);
+}

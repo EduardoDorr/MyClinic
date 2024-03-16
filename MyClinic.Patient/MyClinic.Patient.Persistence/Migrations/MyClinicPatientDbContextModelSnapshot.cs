@@ -23,7 +23,7 @@ namespace MyClinic.Patients.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyClinic.Common.Persistence.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("MyClinic.Common.Persistences.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,8 +117,8 @@ namespace MyClinic.Patients.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("Height")
-                        .HasColumnType("numeric(5,2)");
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("InsuranceId")
                         .HasColumnType("uniqueidentifier");
@@ -135,7 +135,7 @@ namespace MyClinic.Patients.Persistence.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("numeric(5,2)");
+                        .HasColumnType("numeric(6,2)");
 
                     b.Property<short>("Year")
                         .HasColumnType("smallint");
@@ -204,12 +204,10 @@ namespace MyClinic.Patients.Persistence.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<int>("BloodType")
-                                .HasMaxLength(2)
                                 .HasColumnType("int")
                                 .HasColumnName("BloodType");
 
                             b1.Property<int>("RhFactor")
-                                .HasMaxLength(10)
                                 .HasColumnType("int")
                                 .HasColumnName("RhFactor");
 
@@ -250,7 +248,6 @@ namespace MyClinic.Patients.Persistence.Migrations
 
                             b1.Property<string>("Address")
                                 .IsRequired()
-                                .ValueGeneratedOnUpdateSometimes()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("Email");
@@ -272,7 +269,6 @@ namespace MyClinic.Patients.Persistence.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<int>("Type")
-                                .HasMaxLength(10)
                                 .HasColumnType("int")
                                 .HasColumnName("Gender");
 
@@ -291,15 +287,11 @@ namespace MyClinic.Patients.Persistence.Migrations
 
                             b1.Property<string>("Number")
                                 .IsRequired()
-                                .ValueGeneratedOnUpdateSometimes()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("Email");
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("Telephone");
 
                             b1.HasKey("PatientId");
-
-                            b1.HasIndex("Number")
-                                .IsUnique();
 
                             b1.ToTable("Patients", "Patient");
 

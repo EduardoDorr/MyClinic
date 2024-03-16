@@ -9,14 +9,7 @@
 
 
 <ItemGroup>
-<Folder Include="Patients\DeletePatient\" />
-<Folder Include="Patients\GetPatients\" />
-<Folder Include="Patients\UpdatePatient\" />
-</ItemGroup>
-
-
-
-<ItemGroup>
+  <PackageReference Include="FluentValidation" Version="11.9.0" />
   <PackageReference Include="MediatR" Version="12.2.0" />
 </ItemGroup>
 
