@@ -85,5 +85,6 @@ public class Patient : Person
         InsuranceId = patient.InsuranceId;
     }
 
-    public void RaiseEvent(IDomainEvent domainEvent) => RaiseDomainEvent(domainEvent);
+    public void RaiseEvent(IDomainEvent domainEvent) =>
+        RaiseDomainEvent(domainEvent);
 }

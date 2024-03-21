@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+
+using Microsoft.EntityFrameworkCore;
 
 using MyClinic.Common.Models.Pagination;
 using MyClinic.Patients.Domain.Interfaces;
@@ -26,6 +28,11 @@ public class PatientRepository : IPatientRepository
     public async Task<Patient?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Patients.Include(p => p.Insurance).SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
+    }
+
+    public async Task<Patient?> GetByAsync(Expression<Func<Patient, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Patients.Include(p => p.Insurance).SingleOrDefaultAsync(predicate, cancellationToken);
     }
 
     public async Task<bool> IsUniqueAsync(string cpf, string email, CancellationToken cancellationToken = default)

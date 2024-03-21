@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyClinic.Patients.DependencyInjection;
+using MyClinic.Patients.Integration.DependencyInjections;
+
+namespace MyClinic.Patients.Integration;
 
 public static class PatientModule
 {

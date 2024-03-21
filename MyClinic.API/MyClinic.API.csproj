@@ -24,12 +24,15 @@
 
 <ItemGroup>
   <ProjectReference Include="..\MyClinic.Common\MyClinic.Common.csproj" />
-  <ProjectReference Include="..\MyClinic.Patient\MyClinic.Patient.DependencyInjection\MyClinic.Patients.DependencyInjection.csproj" />
+  <ProjectReference Include="..\MyClinic.Doctors.Integration\MyClinic.Doctors.Integration.csproj" />
+  <ProjectReference Include="..\MyClinic.Patient\MyClinic.Patient.DependencyInjection\MyClinic.Patients.Integration.csproj" />
 </ItemGroup>
 
 
 
 <ItemGroup>
+  <Folder Include="Controllers\Modules\Appointments\" />
+  <Folder Include="Controllers\Modules\Procedures\" />
   <Folder Include="wwwroot\" />
 </ItemGroup>
 </Project>

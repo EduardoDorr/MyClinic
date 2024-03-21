@@ -6,7 +6,7 @@ using MyClinic.Common.Models.InputModels;
 
 namespace MyClinic.Patients.Application.Patients.CreatePatient;
 
-public sealed record CreatePatientCommand(
+public record CreatePatientCommand(
     string FirstName,
     string LastName,
     DateTime BirthDate,

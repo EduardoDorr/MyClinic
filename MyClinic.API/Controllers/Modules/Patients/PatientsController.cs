@@ -5,8 +5,9 @@ using MyClinic.Common.Results;
 using MyClinic.Common.Models.Pagination;
 using MyClinic.Patients.Application.Patients.Models;
 using MyClinic.Patients.Application.Patients.Services;
-using MyClinic.Patients.Application.Patients.GetPatient;
 using MyClinic.Patients.Application.Patients.GetPatients;
+using MyClinic.Patients.Application.Patients.GetPatientBy;
+using MyClinic.Patients.Application.Patients.GetPatientById;
 using MyClinic.Patients.Application.Patients.CreatePatient;
 using MyClinic.Patients.Application.Patients.UpdatePatient;
 using MyClinic.Patients.Application.Patients.DeletePatient;
@@ -24,7 +25,7 @@ namespace MyClinic.API.Controllers.Modules.Patients
             _patientService = patientService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResult<PatientViewModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -38,15 +39,29 @@ namespace MyClinic.API.Controllers.Modules.Patients
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PatientViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PatientDetailsViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var query = new GetPatientQuery(id);
+            var query = new GetPatientByIdQuery(id);
 
             var result = await _patientService.GetByIdAsync(query);
+
+            return result.Match(
+            onSuccess: Ok,
+            onFailure: value => value.ToProblemDetails());
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PatientDetailsViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetBy([FromQuery] GetPatientByQuery query)
+        {
+            var result = await _patientService.GetByAsync(query);
 
             return result.Match(
             onSuccess: Ok,

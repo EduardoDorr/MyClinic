@@ -6,7 +6,8 @@ using Serilog;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 using MyClinic.API.Middlewares;
-using MyClinic.Patients.DependencyInjection;
+using MyClinic.Doctors.Integration;
+using MyClinic.Patients.Integration;
 
 namespace MyClinic.API.Configurations;
 
@@ -23,6 +24,7 @@ public static class ServiceConfiguration
 
         // Add modules
         builder.Services.AddPatientModule(builder.Configuration);
+        builder.Services.AddDoctorModule(builder.Configuration);
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

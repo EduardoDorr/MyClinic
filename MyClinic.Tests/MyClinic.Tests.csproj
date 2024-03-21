@@ -29,8 +29,13 @@
 
 
 <ItemGroup>
-<Folder Include="Unit" />
 <Folder Include="Integration" />
 <Folder Include="Utils" />
+</ItemGroup>
+
+
+
+<ItemGroup>
+  <ProjectReference Include="..\MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj" />
 </ItemGroup>
 </Project>

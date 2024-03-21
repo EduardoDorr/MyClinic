@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MyClinic.Common.Persistences.UnitOfWork;
 using MyClinic.Common.Persistences.ConnectionFactory;
-using MyClinic.Patients.Domain.Interfaces;
-using MyClinic.Patients.Persistence.Contexts;
-using MyClinic.Patients.Persistence.UnitOfWork;
-using MyClinic.Patients.Persistence.Repositories;
+using MyClinic.Doctors.Domain.Interfaces;
+using MyClinic.Doctors.Persistence.Contexts;
+using MyClinic.Doctors.Persistence.UnitOfWork;
+using MyClinic.Doctors.Persistence.Repositories;
 
-namespace MyClinic.Patients.DependencyInjection;
+namespace MyClinic.Doctors.Integration.DependencyInjections;
 
 public static class PersistenceModule
 {
@@ -26,13 +26,13 @@ public static class PersistenceModule
 
     private static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = ConnectionFactory.GetConnectionString(configuration);
+        var connectionString = configuration.GetConnectionString();
 
-        services.AddDbContext<MyClinicPatientDbContext>((sp, opts) =>
+        services.AddDbContext<MyClinicDoctorDbContext>((sp, opts) =>
         {
             opts.UseSqlServer(connectionString);
-                //.AddInterceptors(
-                //    sp.GetRequiredService<PublishDomainEventsToOutBoxMessagesInterceptor>());
+            //.AddInterceptors(
+            //    sp.GetRequiredService<PublishDomainEventsToOutBoxMessagesInterceptor>());
         });
 
         return services;
@@ -47,8 +47,9 @@ public static class PersistenceModule
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient<IPatientRepository, PatientRepository>();
-        services.AddTransient<IInsuranceRepository, InsuranceRepository>();
+        services.AddTransient<IDoctorRepository, DoctorRepository>();
+        services.AddTransient<IScheduleRepository, ScheduleRepository>();
+        services.AddTransient<ISpecialityRepository, SpecialityRepository>();
 
         return services;
     }

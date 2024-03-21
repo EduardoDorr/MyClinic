@@ -3,11 +3,10 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
-using MyClinic.Patients.Application.Patients.Services;
-using MyClinic.Patients.Application.Patients.CreatePatient;
-using MyClinic.Patients.Application.Insurances.Services;
+using MyClinic.Doctors.Application.Doctors.Services;
+using MyClinic.Doctors.Application.Doctors.CreateDoctor;
 
-namespace MyClinic.Patients.DependencyInjection;
+namespace MyClinic.Doctors.Integration.DependencyInjections;
 
 public static class ApplicationModule
 {
@@ -25,7 +24,7 @@ public static class ApplicationModule
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssemblyContaining<CreatePatientCommand>();
+            cfg.RegisterServicesFromAssemblyContaining<CreateDoctorCommand>();
         });
 
         return services;
@@ -33,7 +32,7 @@ public static class ApplicationModule
 
     private static IServiceCollection AddValidator(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblyContaining(typeof(CreatePatientCommandValidator), ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblyContaining(typeof(CreateDoctorCommandValidator), ServiceLifetime.Transient);
         services.AddFluentValidationAutoValidation();
 
         return services;
@@ -41,8 +40,9 @@ public static class ApplicationModule
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddTransient<IPatientService, PatientService>();
-        services.AddTransient<IInsuranceService, InsuranceService>();
+        services.AddTransient<IDoctorService, DoctorService>();
+        //services.AddTransient<IScheduleService, ScheduleService>();
+        //services.AddTransient<ISpecialityService, SpecialityService>();
 
         return services;
     }

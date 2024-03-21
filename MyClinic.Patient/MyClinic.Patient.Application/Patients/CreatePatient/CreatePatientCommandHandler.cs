@@ -32,7 +32,8 @@ public sealed class CreatePatientCommandHandler : IRequestHandler<CreatePatientC
             .WithDocument(request.Cpf)
             .WithContactInfo(request.Email, request.Telephone)
             .WithAddress(request.Address.Street, request.Address.City, request.Address.State, request.Address.Country, request.Address.ZipCode)
-            .WithMedicalInfo(request.BloodData.BloodType, request.BloodData.RhFactor, request.Gender, request.Height, request.Weight)
+            .WithMedicalInfo(request.BloodData.BloodType, request.BloodData.RhFactor, request.Gender)
+            .WithHeightAndWeight(request.Height, request.Weight)
             .WithInsuranceId(request.InsuranceId)
             .Build();
 
