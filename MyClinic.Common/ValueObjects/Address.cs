@@ -24,30 +24,41 @@ public sealed record Address
 
     public static Result<Address> Create(string street, string city, string state, string country, string zipCode)
     {
-        if (string.IsNullOrEmpty(street) || street.Length < 5)
+        var streetFormated = street.Trim();
+
+        if (string.IsNullOrEmpty(streetFormated) || streetFormated.Length < 5)
             return Result.Fail<Address>(AddressErrors.StreetIsTooShort);
 
-        if (string.IsNullOrEmpty(city) || city.Length < 5)
+        var cityFormated = city.Trim();
+
+        if (string.IsNullOrEmpty(cityFormated) || cityFormated.Length < 5)
             return Result.Fail<Address>(AddressErrors.CityIsTooShort);
 
-        if (string.IsNullOrEmpty(state) || state.Length < 5)
+        var stateFormated = state.Trim();
+
+        if (string.IsNullOrEmpty(stateFormated) || stateFormated.Length < 5)
             return Result.Fail<Address>(AddressErrors.StateIsTooShort);
 
-        if (string.IsNullOrEmpty(country) || country.Length < 5)
+        var countryFormated = country.Trim();
+
+        if (string.IsNullOrEmpty(countryFormated) || countryFormated.Length < 5)
             return Result.Fail<Address>(AddressErrors.CountryIsTooShort);
 
-        if (string.IsNullOrEmpty(zipCode) || zipCode.Length != 8 || !int.TryParse(zipCode, out int zipCodeAsNumber))
+        var zipCodeFormated = FormatZipCode(zipCode);
+
+        if (string.IsNullOrEmpty(zipCodeFormated) || zipCodeFormated.Length != 8 || !int.TryParse(zipCodeFormated, out int zipCodeAsNumber))
             return Result.Fail<Address>(AddressErrors.ZipCodeIsInvalid);
 
-        var streetTrimmed = street.Trim();
-        var cityTrimmed = city.Trim();
-        var stateTrimmed = state.Trim();
-        var countryTrimmed = country.Trim();
-        var zipCodeTrimmed = zipCode.Trim();
-
-        var address = new Address(streetTrimmed, cityTrimmed, stateTrimmed, countryTrimmed, zipCodeTrimmed);
+        var address = new Address(streetFormated, cityFormated, stateFormated, countryFormated, zipCodeFormated);
 
         return Result.Ok(address);
+    }
+
+    private static string FormatZipCode(string zipCode)
+    {
+        return zipCode
+            .Replace("-", "")
+            .Trim();
     }
 }
 

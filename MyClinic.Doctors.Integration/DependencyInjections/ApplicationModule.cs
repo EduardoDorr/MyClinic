@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 
 using MyClinic.Doctors.Application.Doctors.Services;
 using MyClinic.Doctors.Application.Doctors.CreateDoctor;
+using MyClinic.Doctors.Application.Specialities.Services;
 
 namespace MyClinic.Doctors.Integration.DependencyInjections;
 
@@ -41,8 +42,9 @@ public static class ApplicationModule
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddTransient<IDoctorService, DoctorService>();
-        //services.AddTransient<IScheduleService, ScheduleService>();
-        //services.AddTransient<ISpecialityService, SpecialityService>();
+        services.AddTransient<ISpecialityService, SpecialityService>();
+        services.AddTransient<IDoctorScheduleService, DoctorScheduleService>();
+        services.AddTransient<IDoctorSpecialityService, DoctorSpecialityService>();
 
         return services;
     }

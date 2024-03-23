@@ -13,11 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Schedules\" />
-    <Folder Include="Specialities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyClinic.Common\MyClinic.Common.csproj" />
     <ProjectReference Include="..\MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj" />
   </ItemGroup>

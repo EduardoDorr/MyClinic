@@ -36,6 +36,6 @@ public sealed class PatientService : IPatientService
     public async Task<Result> UpdateAsync(Guid id, UpdatePatientInputModel model) =>
         await _sender.Send(model.ToCommand(id));
 
-    public async Task<Result> Delete(DeletePatientCommand command) =>
+    public async Task<Result> DeleteAsync(DeletePatientCommand command) =>
         await _sender.Send(command);
 }

@@ -12,11 +12,9 @@ public sealed record UpdateDoctorInputModel(
     AddressInputModel Address,
     BloodDataInputModel BloodData,
     GenderType Gender,
-    int Height,
-    decimal Weight,
-    Guid? InsuranceId);
+    string LicenseNumber);
 
-public static class UpdatePatientInputModelExtension
+public static class UpdateDoctorInputModelExtension
 {
     public static UpdateDoctorCommand ToCommand(this UpdateDoctorInputModel model, Guid id)
     {
@@ -30,8 +28,6 @@ public static class UpdatePatientInputModelExtension
             model.Address,
             model.BloodData,
             model.Gender,
-            model.Height,
-            model.Weight,
-            model.InsuranceId);
+            model.LicenseNumber);
     }
 }

@@ -16,6 +16,4 @@ public sealed record UpdateDoctorCommand(
     AddressInputModel Address,
     BloodDataInputModel BloodData,
     GenderType Gender,
-    int Height,
-    decimal Weight,
-    Guid? InsuranceId) : IRequest<Result>;
+    string LicenseNumber) : IRequest<Result>;

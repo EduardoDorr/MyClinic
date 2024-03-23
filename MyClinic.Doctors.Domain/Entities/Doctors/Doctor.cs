@@ -79,11 +79,7 @@ public class Doctor : Person
         Address = doctor.Address;
         BloodData = doctor.BloodData;
         Gender = doctor.Gender;
-    }
-
-    public void AddSpeciality(Speciality speciality)
-    {
-        Specialities.Add(speciality);
+        LicenseNumber = doctor.LicenseNumber;
     }
 
     public void AddSpecialities(IList<Speciality>? specialities)
@@ -94,9 +90,13 @@ public class Doctor : Person
         Specialities.AddRange(specialities);
     }
 
-    public void AddSchedule(Schedule schedule)
+    public void RemoveSpecialities(IList<Speciality>? specialities)
     {
-        Schedules.Add(schedule);
+        if (specialities is null)
+            return;
+
+        foreach (var speciality in specialities)
+            Specialities.Single(s => s == speciality).Deactivate();
     }
 
     public void AddSchedules(IList<Schedule>? schedules)
@@ -105,6 +105,15 @@ public class Doctor : Person
             return;
 
         Schedules.AddRange(schedules);
+    }
+
+    public void RemoveSchedules(IList<Schedule>? schedules)
+    {
+        if (schedules is null)
+            return;
+
+        foreach (var schedule in schedules)
+            Schedules.Single(s => s == schedule).Deactivate();
     }
 
     public void RaiseEvent(IDomainEvent domainEvent) =>

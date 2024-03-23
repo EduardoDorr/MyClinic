@@ -102,7 +102,7 @@ namespace MyClinic.API.Controllers.Modules.Patients
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _patientService.Delete(new DeletePatientCommand(id));
+            var result = await _patientService.DeleteAsync(new DeletePatientCommand(id));
 
             return result.Match(
             onSuccess: NoContent,

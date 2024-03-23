@@ -7,4 +7,5 @@ public interface IScheduleRepository
     : IReadableRepository<Schedule>,
       ICreatableRepository<Schedule>
 {
+    Task<bool> IsUniqueAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
 }

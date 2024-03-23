@@ -3,6 +3,7 @@
 using MyClinic.Common.Results;
 using MyClinic.Common.ValueObjects;
 using MyClinic.Common.Models.InputModels;
+using MyClinic.Doctors.Domain.Entities.Doctors;
 
 namespace MyClinic.Doctors.Application.Doctors.CreateDoctor;
 
@@ -18,6 +19,4 @@ public sealed record CreateDoctorCommand(
     GenderType Gender,
     string LicenseNumber,
     List<Guid>? SpecialitiesId,
-    List<ScheduleInputModel>? Schedules) : IRequest<Result<Guid>>;
-
-public sealed record ScheduleInputModel(DateTime StartDate, DateTime EndDate);
+    List<DoctorSchedule>? Schedules) : IRequest<Result<Guid>>;

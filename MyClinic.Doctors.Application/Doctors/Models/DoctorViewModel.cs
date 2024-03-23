@@ -9,7 +9,7 @@ public record DoctorViewModel(
     string Email,
     string Telephone);
 
-public static class PatientViewModelExtension
+public static class DoctorViewModelExtension
 {
     public static DoctorViewModel ToViewModel(this Doctor doctor)
     {

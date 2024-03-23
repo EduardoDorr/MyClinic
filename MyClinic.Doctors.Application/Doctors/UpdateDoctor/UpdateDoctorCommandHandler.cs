@@ -2,8 +2,8 @@
 
 using MyClinic.Common.Results;
 using MyClinic.Common.Persistences.UnitOfWork;
-using MyClinic.Doctors.Domain.Entities.Doctors;
 using MyClinic.Doctors.Domain.Interfaces;
+using MyClinic.Doctors.Domain.Entities.Doctors;
 
 namespace MyClinic.Doctors.Application.Doctors.UpdateDoctor;
 
@@ -33,8 +33,7 @@ public sealed class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCom
             .WithContactInfo(request.Email, request.Telephone)
             .WithAddress(request.Address.Street, request.Address.City, request.Address.State, request.Address.Country, request.Address.ZipCode)
             .WithMedicalInfo(request.BloodData.BloodType, request.BloodData.RhFactor, request.Gender)
-            //.WithHeightAndWeight(request.Height, request.Weight)
-            //.WithInsuranceId(request.InsuranceId)
+            .WithLicenseNumber(request.LicenseNumber)
             .Build();
 
         if (!doctorResult.Success)

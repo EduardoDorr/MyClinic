@@ -5,6 +5,8 @@ namespace MyClinic.Doctors.Domain.Interfaces;
 
 public interface ISpecialityRepository
     : IReadableRepository<Speciality>,
-      ICreatableRepository<Speciality>
+      ICreatableRepository<Speciality>,
+      IUpdatableRepository<Speciality>
 {
+    Task<bool> IsUniqueAsync(string name, CancellationToken cancellationToken = default);
 }

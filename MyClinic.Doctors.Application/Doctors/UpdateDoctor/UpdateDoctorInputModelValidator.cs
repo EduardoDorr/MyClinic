@@ -36,15 +36,8 @@ public sealed class UpdateDoctorInputModelValidator : AbstractValidator<UpdateDo
         RuleFor(r => r.Gender)
             .IsInEnum().WithMessage("Gender must match the specific types");
 
-        RuleFor(r => r.Height)
-           .GreaterThan(0).LessThan(300).WithMessage("Height is not valid");
-
-        RuleFor(r => r.Weight)
-           .GreaterThan(0).LessThan(999).WithMessage("Weight is not valid");
-
-        RuleFor(r => r.InsuranceId)
-           .Must(r => Guid.TryParse(r.ToString(), out Guid result))
-           .When(r => r.InsuranceId is not null)
-           .WithMessage("Insurance Id is not valid");
+        RuleFor(r => r.LicenseNumber)
+            .MinimumLength(7).WithMessage("License Number must have a minimum of 7 characters")
+            .MaximumLength(12).WithMessage("License Number must have a maximum of 12 characters");
     }
 }

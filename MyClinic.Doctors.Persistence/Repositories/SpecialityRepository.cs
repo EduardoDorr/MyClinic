@@ -28,6 +28,13 @@ public class SpecialityRepository : ISpecialityRepository
         return await _dbContext.Specialities.Include(s => s.Doctors).SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
     }
 
+    public async Task<bool> IsUniqueAsync(string name, CancellationToken cancellationToken = default)
+    {
+        var hasSpeciality = await _dbContext.Specialities.AnyAsync(s => s.Name == name, cancellationToken);
+
+        return !hasSpeciality;
+    }
+
     public void Create(Speciality speciality)
     {
         _dbContext.Specialities.Add(speciality);
@@ -36,5 +43,5 @@ public class SpecialityRepository : ISpecialityRepository
     public void Update(Speciality speciality)
     {
         _dbContext.Specialities.Update(speciality);
-    }
+    }    
 }

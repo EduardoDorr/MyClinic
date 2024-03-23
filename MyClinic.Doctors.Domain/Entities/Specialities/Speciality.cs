@@ -26,4 +26,9 @@ public class Speciality : BaseEntity
 
         return Result<Speciality>.Ok(insurance);
     }
+
+    public void Update(string name)
+    {
+        Name = name;
+    }
 }

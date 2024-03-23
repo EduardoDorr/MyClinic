@@ -1,7 +1,5 @@
 ﻿using MyClinic.Common.ValueObjects;
 using MyClinic.Doctors.Domain.Entities.Doctors;
-using MyClinic.Doctors.Domain.Entities.Schedules;
-using MyClinic.Doctors.Domain.Entities.Specialities;
 
 namespace MyClinic.Doctors.Application.Doctors.Models;
 
@@ -17,8 +15,8 @@ public record DoctorDetailsViewModel(
     BloodData BloodData,
     GenderType Gender,
     string LicenseNumber,
-    ICollection<Speciality>? Specialities,
-    ICollection<Schedule>? Schedules);
+    ICollection<string>? Specialities,
+    ICollection<DoctorSchedule>? Schedules);
 
 public static class DoctorDetailsViewModelExtension
 {
@@ -36,14 +34,14 @@ public static class DoctorDetailsViewModelExtension
             doctor.BloodData,
             doctor.Gender.Type,
             doctor.LicenseNumber,
-            doctor.Specialities,
-            doctor.Schedules);
+            doctor.Specialities.Select(s => s.Name).ToList(),
+            doctor.Schedules.ToDoctorSchedule());
     }
 
-    public static IEnumerable<DoctorDetailsViewModel> ToDetailsViewModel(this IEnumerable<Doctor> patients)
+    public static ICollection<DoctorDetailsViewModel> ToDetailsViewModel(this IEnumerable<Doctor> doctors)
     {
-        return patients is not null
-             ? patients.Select(fg => fg.ToDetailsViewModel()).ToList()
+        return doctors is not null
+             ? doctors.Select(fg => fg.ToDetailsViewModel()).ToList()
              : [];
     }
 }

@@ -28,13 +28,21 @@ public class ScheduleRepository : IScheduleRepository
         return await _dbContext.Schedules.SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
     }
 
+    public async Task<bool> IsUniqueAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+    {
+        var hasSchedule =
+            await _dbContext.Schedules
+            .AnyAsync(s => (startDate <= s.StartDate && endDate > s.StartDate) ||
+                           (startDate < s.EndDate && endDate >= s.EndDate) ||
+                           (startDate >= s.StartDate && endDate <= s.EndDate) ||
+                           (startDate < s.StartDate && endDate > s.EndDate),
+                      cancellationToken);
+
+        return !hasSchedule;
+    }
+
     public void Create(Schedule schedule)
     {
         _dbContext.Schedules.Add(schedule);
-    }
-
-    public void Update(Schedule schedule)
-    {
-        _dbContext.Schedules.Update(schedule);
     }
 }
