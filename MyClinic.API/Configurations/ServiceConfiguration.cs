@@ -8,6 +8,8 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using MyClinic.API.Middlewares;
 using MyClinic.Doctors.Integration;
 using MyClinic.Patients.Integration;
+using MyClinic.Procedures.Integration;
+using MyClinic.Appointments.Integration;
 
 namespace MyClinic.API.Configurations;
 
@@ -15,7 +17,7 @@ public static class ServiceConfiguration
 {
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        // add Serilog as the log provider.
+        // Add Serilog as the log provider.
         builder.Services.AddLogging(loggingBuilder =>
         {
             loggingBuilder.ClearProviders();
@@ -25,6 +27,8 @@ public static class ServiceConfiguration
         // Add modules
         builder.Services.AddPatientModule(builder.Configuration);
         builder.Services.AddDoctorModule(builder.Configuration);
+        builder.Services.AddProcedureModule(builder.Configuration);
+        builder.Services.AddAppointmentModule(builder.Configuration);
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

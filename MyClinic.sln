@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.API", "MyClinic.API\MyClinic.API.csproj", "{62E45FAC-59D4-4EDA-BE3E-B49830DD0F27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Application", "MyClinic.Patient\MyClinic.Patient.Application\MyClinic.Patients.Application.csproj", "{65A15C2B-1E7F-4150-B00C-E76EDD6B5542}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Application", "MyClinic.Patients\MyClinic.Patients.Application\MyClinic.Patients.Application.csproj", "{65A15C2B-1E7F-4150-B00C-E76EDD6B5542}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Domain", "MyClinic.Patient\MyClinic.Patient.Domain\MyClinic.Patients.Domain.csproj", "{EF0F8A49-B470-4E10-ABC2-64E3F6F93FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Domain", "MyClinic.Patients\MyClinic.Patients.Domain\MyClinic.Patients.Domain.csproj", "{EF0F8A49-B470-4E10-ABC2-64E3F6F93FD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Persistence", "MyClinic.Patient\MyClinic.Patient.Persistence\MyClinic.Patients.Persistence.csproj", "{CAAADE84-CAB4-45E1-966D-4EB39F11DCDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Persistence", "MyClinic.Patients\MyClinic.Patients.Persistence\MyClinic.Patients.Persistence.csproj", "{CAAADE84-CAB4-45E1-966D-4EB39F11DCDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Integration", "MyClinic.Patient\MyClinic.Patient.DependencyInjection\MyClinic.Patients.Integration.csproj", "{9EE6A80B-1ABE-4CE5-A346-25165DF9A5CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Patients.Integration", "MyClinic.Patients\MyClinic.Patients.DependencyInjection\MyClinic.Patients.Integration.csproj", "{9EE6A80B-1ABE-4CE5-A346-25165DF9A5CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Tests", "MyClinic.Tests\MyClinic.Tests.csproj", "{3B2C69D3-E7B5-4528-936C-F27C49FFAB8A}"
 EndProject
@@ -33,13 +33,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Procedures", "Procedures", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{A11128FE-21EC-48C4-ADF3-F540ADE24CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Doctors.Domain", "MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj", "{F231840E-056C-4EE6-AF48-1E9C84B6BEDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Doctors.Domain", "MyClinic.Doctors\MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj", "{F231840E-056C-4EE6-AF48-1E9C84B6BEDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Doctors.Persistence", "MyClinic.Doctors.Persistence\MyClinic.Doctors.Persistence.csproj", "{2F053DB7-CB4A-41A8-B73C-5B1B26CC27C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Doctors.Persistence", "MyClinic.Doctors\MyClinic.Doctors.Persistence\MyClinic.Doctors.Persistence.csproj", "{2F053DB7-CB4A-41A8-B73C-5B1B26CC27C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Doctors.Integration", "MyClinic.Doctors.Integration\MyClinic.Doctors.Integration.csproj", "{63A29289-92D1-4C91-A938-771B01334090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Doctors.Integration", "MyClinic.Doctors\MyClinic.Doctors.Integration\MyClinic.Doctors.Integration.csproj", "{63A29289-92D1-4C91-A938-771B01334090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Doctors.Application", "MyClinic.Doctors.Application\MyClinic.Doctors.Application.csproj", "{EC70C381-E74F-4DCE-871C-DBECDF036E45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Doctors.Application", "MyClinic.Doctors\MyClinic.Doctors.Application\MyClinic.Doctors.Application.csproj", "{EC70C381-E74F-4DCE-871C-DBECDF036E45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Procedures.Domain", "MyClinic.Procedures\MyClinic.Procedures.Domain\MyClinic.Procedures.Domain.csproj", "{4F5B49B2-15DF-477F-B426-4C570586C540}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Procedures.Persistence", "MyClinic.Procedures\MyClinic.Procedures.Persistence\MyClinic.Procedures.Persistence.csproj", "{325CC20F-A108-41B2-AEDF-6FE1C77F80FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Procedures.Integration", "MyClinic.Procedures\MyClinic.Procedures.Integration\MyClinic.Procedures.Integration.csproj", "{6E8C6B71-3326-46F2-93F7-54B574E5BC18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClinic.Procedures.Application", "MyClinic.Procedures\MyClinic.Procedures.Application\MyClinic.Procedures.Application.csproj", "{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Appointments.Domain", "MyClinic.Appointments\MyClinic.Appointments.Domain\MyClinic.Appointments.Domain.csproj", "{D460CCCC-D451-47F4-85EA-E5047FF9C0D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Appointments.Persistence", "MyClinic.Appointments\MyClinic.Appointments.Persistence\MyClinic.Appointments.Persistence.csproj", "{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyClinic.Appointments.Integration", "MyClinic.Appointments\MyClinic.Appointments.Integration\MyClinic.Appointments.Integration.csproj", "{1DA6AFB4-A29F-42C8-A864-CE199C662D8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +105,34 @@ Global
 		{EC70C381-E74F-4DCE-871C-DBECDF036E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC70C381-E74F-4DCE-871C-DBECDF036E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC70C381-E74F-4DCE-871C-DBECDF036E45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F5B49B2-15DF-477F-B426-4C570586C540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5B49B2-15DF-477F-B426-4C570586C540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5B49B2-15DF-477F-B426-4C570586C540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5B49B2-15DF-477F-B426-4C570586C540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325CC20F-A108-41B2-AEDF-6FE1C77F80FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325CC20F-A108-41B2-AEDF-6FE1C77F80FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325CC20F-A108-41B2-AEDF-6FE1C77F80FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325CC20F-A108-41B2-AEDF-6FE1C77F80FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8C6B71-3326-46F2-93F7-54B574E5BC18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8C6B71-3326-46F2-93F7-54B574E5BC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8C6B71-3326-46F2-93F7-54B574E5BC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8C6B71-3326-46F2-93F7-54B574E5BC18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D460CCCC-D451-47F4-85EA-E5047FF9C0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D460CCCC-D451-47F4-85EA-E5047FF9C0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D460CCCC-D451-47F4-85EA-E5047FF9C0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D460CCCC-D451-47F4-85EA-E5047FF9C0D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA6AFB4-A29F-42C8-A864-CE199C662D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA6AFB4-A29F-42C8-A864-CE199C662D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA6AFB4-A29F-42C8-A864-CE199C662D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA6AFB4-A29F-42C8-A864-CE199C662D8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +153,13 @@ Global
 		{2F053DB7-CB4A-41A8-B73C-5B1B26CC27C6} = {7EECECB4-8B89-468F-9A7C-714F117C29DF}
 		{63A29289-92D1-4C91-A938-771B01334090} = {7EECECB4-8B89-468F-9A7C-714F117C29DF}
 		{EC70C381-E74F-4DCE-871C-DBECDF036E45} = {7EECECB4-8B89-468F-9A7C-714F117C29DF}
+		{4F5B49B2-15DF-477F-B426-4C570586C540} = {9EC83BD8-1B01-4B6F-A90B-97EAF30875DF}
+		{325CC20F-A108-41B2-AEDF-6FE1C77F80FF} = {9EC83BD8-1B01-4B6F-A90B-97EAF30875DF}
+		{6E8C6B71-3326-46F2-93F7-54B574E5BC18} = {9EC83BD8-1B01-4B6F-A90B-97EAF30875DF}
+		{C9ECE60F-87AF-4396-ADDF-85E4D5518C3C} = {9EC83BD8-1B01-4B6F-A90B-97EAF30875DF}
+		{D460CCCC-D451-47F4-85EA-E5047FF9C0D6} = {2789E452-C661-45B5-8AC9-3486B3F26AD1}
+		{F0D874C3-A93C-4B7E-B23A-D7E010FE7B81} = {2789E452-C661-45B5-8AC9-3486B3F26AD1}
+		{1DA6AFB4-A29F-42C8-A864-CE199C662D8E} = {2789E452-C661-45B5-8AC9-3486B3F26AD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FE513CA0-68FD-4F80-A5F1-52221F797822}

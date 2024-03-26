@@ -1,7 +1,7 @@
 ﻿using MyClinic.Common.Entities;
 using MyClinic.Common.Models.Pagination;
 
-namespace MyClinic.Common.Persistences.Repositories;
+namespace MyClinic.Common.Persistence.Repositories;
 
 public interface IReadableRepository<TEntity> where TEntity : BaseEntity
 {

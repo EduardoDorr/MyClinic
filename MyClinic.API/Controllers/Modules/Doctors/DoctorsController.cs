@@ -9,6 +9,7 @@ using MyClinic.Doctors.Application.Doctors.Services;
 using MyClinic.Doctors.Application.Doctors.GetDoctors;
 using MyClinic.Doctors.Application.Doctors.GetDoctorBy;
 using MyClinic.Doctors.Application.Doctors.GetDoctorById;
+using MyClinic.Doctors.Application.Doctors.GetDoctorsBySpeciality;
 using MyClinic.Doctors.Application.Doctors.CreateDoctor;
 using MyClinic.Doctors.Application.Doctors.UpdateDoctor;
 using MyClinic.Doctors.Application.Doctors.DeleteDoctor;
@@ -33,6 +34,21 @@ public class DoctorsController : ControllerBase
     public async Task<IActionResult> GetAll([FromQuery] GetDoctorsQuery query)
     {
         var result = await _doctorService.GetAllAsync(query);
+
+        return result.Match(
+        onSuccess: Ok,
+        onFailure: value => value.ToProblemDetails());
+    }
+
+    [HttpGet("get-all/speciality/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResult<DoctorViewModel>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetAll(Guid id, [FromQuery] GetDoctorsQuery model)
+    {
+        var query = new GetDoctorsBySpecialityQuery(id, model.Page, model.PageSize);
+
+        var result = await _doctorService.GetAllBySpecialityAsync(query);
 
         return result.Match(
         onSuccess: Ok,

@@ -1,6 +1,6 @@
 ﻿using MyClinic.Common.Entities;
 
-namespace MyClinic.Common.Persistences.Repositories;
+namespace MyClinic.Common.Persistence.Repositories;
 
 public interface IDeletableRepository<TEntity> where TEntity : BaseEntity
 {

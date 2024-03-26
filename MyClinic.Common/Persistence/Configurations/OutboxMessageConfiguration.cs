@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MyClinic.Common.Persistence.Outbox;
 
-using MyClinic.Common.Persistences.Outbox;
-
-namespace MyClinic.Common.Persistences.Configurations;
+namespace MyClinic.Common.Persistence.Configurations;
 
 public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {

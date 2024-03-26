@@ -1,4 +1,4 @@
-﻿namespace MyClinic.Common.Persistences.Outbox;
+﻿namespace MyClinic.Common.Persistence.Outbox;
 
 public sealed class OutboxMessage
 {

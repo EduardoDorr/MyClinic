@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using MyClinic.Common.Entities;
 
-namespace MyClinic.Common.Persistences.Configurations;
+namespace MyClinic.Common.Persistence.Configurations;
 
 public abstract class PersonConfiguration<TBase> : BaseEntityConfiguration<TBase> where TBase : Person
 {

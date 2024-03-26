@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MyClinic.Common.Persistence.ConnectionFactories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyClinic.Common.Persistences.ConnectionFactory;
+namespace MyClinic.Common.Persistence.ConnectionFactories;
 
 public static class ConnectionFactory
 {

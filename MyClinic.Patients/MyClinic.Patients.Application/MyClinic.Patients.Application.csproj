@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+
+
+<ItemGroup>
+  <PackageReference Include="FluentValidation" Version="11.9.0" />
+  <PackageReference Include="MediatR" Version="12.2.0" />
+</ItemGroup>
+
+
+
+<ItemGroup>
+  <ProjectReference Include="..\..\MyClinic.Common\MyClinic.Common.csproj" />
+  <ProjectReference Include="..\MyClinic.Patients.Domain\MyClinic.Patients.Domain.csproj" />
+</ItemGroup>
+</Project>

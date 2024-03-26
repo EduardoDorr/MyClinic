@@ -36,6 +36,6 @@
 
 
 <ItemGroup>
-  <ProjectReference Include="..\MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj" />
+  <ProjectReference Include="..\MyClinic.Doctors\MyClinic.Doctors.Domain\MyClinic.Doctors.Domain.csproj" />
 </ItemGroup>
 </Project>
