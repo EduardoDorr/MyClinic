@@ -3,6 +3,9 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
+using MyClinic.Appointments.Application.Appointments.Services;
+using MyClinic.Appointments.Application.Appointments.CreateAppointment;
+
 namespace MyClinic.Appointments.Integration.DependencyInjections;
 
 public static class ApplicationModule
@@ -19,25 +22,25 @@ public static class ApplicationModule
 
     private static IServiceCollection AddMediator(this IServiceCollection services)
     {
-        //services.AddMediatR(cfg =>
-        //{
-        //    cfg.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>();
-        //});
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>();
+        });
 
         return services;
     }
 
     private static IServiceCollection AddValidator(this IServiceCollection services)
     {
-        //services.AddValidatorsFromAssemblyContaining(typeof(CreateAppointmentCommandValidator), ServiceLifetime.Transient);
-        //services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining(typeof(CreateAppointmentCommandValidator), ServiceLifetime.Transient);
+        services.AddFluentValidationAutoValidation();
 
         return services;
     }
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        //services.AddTransient<IAppointmentService, AppointmentService>();
+        services.AddTransient<IAppointmentService, AppointmentService>();
 
         return services;
     }

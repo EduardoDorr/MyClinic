@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyClinic.Appointments.Application\MyClinic.Appointments.Application.csproj" />
     <ProjectReference Include="..\MyClinic.Appointments.Persistence\MyClinic.Appointments.Persistence.csproj" />
   </ItemGroup>
 

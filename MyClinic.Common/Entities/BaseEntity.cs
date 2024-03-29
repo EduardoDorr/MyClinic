@@ -1,4 +1,4 @@
-﻿using MyClinic.Common.Events;
+﻿using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Common.Entities;
 

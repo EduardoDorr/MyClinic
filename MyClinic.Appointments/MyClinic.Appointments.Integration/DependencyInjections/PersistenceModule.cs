@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using MyClinic.Common.Persistence.ConnectionFactories;
-
 using MyClinic.Appointments.Domain.UnitOfWork;
 using MyClinic.Appointments.Domain.Repositories;
 using MyClinic.Appointments.Persistence.Contexts;
@@ -11,6 +9,7 @@ using MyClinic.Appointments.Persistence.UnitOfWork;
 using MyClinic.Appointments.Persistence.Repositories;
 using MyClinic.Appointments.Persistence.Interceptors;
 using MyClinic.Appointments.Persistence.BackgroundJobs;
+using MyClinic.Common.Persistence.DbConnectionFactories;
 
 namespace MyClinic.Appointments.Integration.DependencyInjections;
 

@@ -26,6 +26,7 @@
   <ProjectReference Include="..\MyClinic.Appointments\MyClinic.Appointments.Integration\MyClinic.Appointments.Integration.csproj" />
   <ProjectReference Include="..\MyClinic.Common\MyClinic.Common.csproj" />
   <ProjectReference Include="..\MyClinic.Doctors\MyClinic.Doctors.Integration\MyClinic.Doctors.Integration.csproj" />
+  <ProjectReference Include="..\MyClinic.Notifications\MyClinic.Notifications.Integration\MyClinic.Notifications.Integration.csproj" />
   <ProjectReference Include="..\MyClinic.Patients\MyClinic.Patients.DependencyInjection\MyClinic.Patients.Integration.csproj" />
   <ProjectReference Include="..\MyClinic.Procedures\MyClinic.Procedures.Integration\MyClinic.Procedures.Integration.csproj" />
 </ItemGroup>
@@ -33,7 +34,6 @@
 
 
 <ItemGroup>
-  <Folder Include="Controllers\Modules\Appointments\" />
   <Folder Include="wwwroot\" />
 </ItemGroup>
 </Project>

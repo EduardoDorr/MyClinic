@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 using MediatR;
 using Newtonsoft.Json;
-
-using MyClinic.Common.Events;
 using MyClinic.Common.Persistence.Outbox;
 
 using MyClinic.Appointments.Persistence.Contexts;
+using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Appointments.Persistence.BackgroundJobs;
 
@@ -40,27 +39,37 @@ public sealed class ProcessOutboxMessagesJob : BackgroundService
 
             foreach (var outboxMessage in outboxMessages)
             {
-                var domainEvent =
-                    JsonConvert.DeserializeObject<IDomainEvent>(
-                        outboxMessage.Content,
-                        new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.All,
-                        });
-
-                if (domainEvent is null)
+                try
                 {
-                    _logger.LogError($"Domain event {outboxMessage.Type} cannot deserialize");
+                    var domainEvent =
+                        JsonConvert.DeserializeObject<IDomainEvent>(
+                            outboxMessage.Content,
+                            new JsonSerializerSettings
+                            {
+                                TypeNameHandling = TypeNameHandling.All,
+                            });
 
-                    continue;
+                    if (domainEvent is null)
+                    {
+                        _logger.LogError($"Domain event {outboxMessage.Type} cannot deserialize");
+
+                        continue;
+                    }
+
+                    await publisher.Publish(domainEvent, stoppingToken);
+
+                    outboxMessage.ProcessedAt = DateTime.Now;
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
 
-                await publisher.Publish(domainEvent, stoppingToken);
-
-                outboxMessage.ProcessedAt = DateTime.Now;
+                    outboxMessage.Error = ex.Message;
+                }
             }
 
-            await context.SaveChangesAsync(stoppingToken);
+            if (outboxMessages.Count > 0)
+                await context.SaveChangesAsync(stoppingToken);
 
             await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
         }

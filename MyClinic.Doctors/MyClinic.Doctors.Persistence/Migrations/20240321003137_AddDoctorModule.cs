@@ -55,9 +55,9 @@ namespace MyClinic.Doctors.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Error = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    ProcessedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Error = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    ProcessedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {

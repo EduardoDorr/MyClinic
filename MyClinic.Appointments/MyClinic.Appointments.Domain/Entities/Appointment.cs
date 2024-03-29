@@ -1,6 +1,6 @@
-﻿using MyClinic.Common.Events;
-using MyClinic.Common.Results;
+﻿using MyClinic.Common.Results;
 using MyClinic.Common.Entities;
+using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Appointments.Domain.Entities;
 
@@ -58,19 +58,11 @@ public class Appointment : BaseEntity
     }
 
     public void Update(
-        Guid patientId,
-        Guid doctorId,
-        Guid procedureId,
         DateTime scheduledStartDate,
-        DateTime scheduledEndDate,
-        AppointmentType type)
+        DateTime scheduledEndDate)
     {
-        PatientId = patientId;
-        DoctorId = doctorId;
-        ProcedureId = procedureId;
         ScheduledStartDate = scheduledStartDate;
         ScheduledEndDate = scheduledEndDate;
-        Type = type;
     }
 
     private void SetCancellationDate() =>
@@ -140,18 +132,27 @@ public class Appointment : BaseEntity
         return Result.Ok();
     }
 
-    public Result Reschedule()
+    public Result<Appointment> Reschedule(DateTime newStartDate, DateTime newEndDate)
     {
         if (Status is (AppointmentStatus.CanceledByPatient or AppointmentStatus.CanceledByDoctor))
-            return Result.Fail(AppointmentErrors.AlreadyCanceled);
+            return Result.Fail<Appointment>(AppointmentErrors.AlreadyCanceled);
 
         if (Status is not (AppointmentStatus.Scheduled or AppointmentStatus.Pending or AppointmentStatus.Confirmed))
-            return Result.Fail(AppointmentErrors.CannotBeRescheduled);
+            return Result.Fail<Appointment>(AppointmentErrors.CannotBeRescheduled);
 
         SetStatus(AppointmentStatus.Rescheduled);
         SetCancellationDate();
 
-        return Result.Ok();
+        var appointment =
+            new Appointment(
+                PatientId,
+                DoctorId,
+                ProcedureId,
+                newStartDate,
+                newEndDate,
+                Type);
+
+        return Result.Ok(appointment);
     }
 
     public Result Cancel(bool byDoctor = false)

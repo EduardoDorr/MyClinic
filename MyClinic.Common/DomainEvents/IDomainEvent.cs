@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace MyClinic.Common.Events;
+namespace MyClinic.Common.DomainEvents;
 
 public interface IDomainEvent : INotification { }

@@ -19,6 +19,12 @@ public record AppointmentErrors(string Code, string Message, ErrorType Type) : I
     public static readonly Error IsNotUnique =
         new("Appointment.IsNotUnique", "A doctor's or patient's appointment conflicts with a existing one", ErrorType.Conflict);
 
+    public static readonly Error MinimumSchedulingNotice =
+        new("Appointment.MinimumSchedulingNotice", "Appointment does not respect minimum scheduling notice from procedure", ErrorType.Conflict);
+
+    public static readonly Error DoctorHasNoSchedule =
+        new("Appointment.DoctorHasNoSchedule", "Doctor has no schedule to appointment's start date", ErrorType.Conflict);
+
     public static readonly Error AlreadyCanceled =
         new("Appointment.AlreadyCanceled", "Appointment is already canceled", ErrorType.Conflict);
 

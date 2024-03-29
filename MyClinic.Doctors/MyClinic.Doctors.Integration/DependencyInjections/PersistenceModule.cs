@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using MyClinic.Common.Persistence.ConnectionFactories;
 using MyClinic.Doctors.Persistence.Contexts;
 using MyClinic.Doctors.Persistence.UnitOfWork;
 using MyClinic.Doctors.Persistence.Repositories;
 using MyClinic.Doctors.Domain.UnitOfWork;
 using MyClinic.Doctors.Domain.Repositories;
+using MyClinic.Common.Persistence.DbConnectionFactories;
 
 namespace MyClinic.Doctors.Integration.DependencyInjections;
 

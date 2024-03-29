@@ -1,9 +1,9 @@
-﻿using MyClinic.Common.Events;
-using MyClinic.Common.Results;
+﻿using MyClinic.Common.Results;
 using MyClinic.Common.Entities;
 using MyClinic.Common.ValueObjects;
 using MyClinic.Doctors.Domain.Entities.Schedules;
 using MyClinic.Doctors.Domain.Entities.Specialities;
+using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Doctors.Domain.Entities.Doctors;
 

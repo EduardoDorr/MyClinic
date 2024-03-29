@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyClinic.Doctors\MyClinic.Doctors.Integration\MyClinic.Doctors.Integration.csproj" />
+    <ProjectReference Include="..\..\MyClinic.Patients\MyClinic.Patients.DependencyInjection\MyClinic.Patients.Integration.csproj" />
+    <ProjectReference Include="..\..\MyClinic.Procedures\MyClinic.Procedures.Integration\MyClinic.Procedures.Integration.csproj" />
+    <ProjectReference Include="..\MyClinic.Appointments.Domain\MyClinic.Appointments.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

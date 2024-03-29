@@ -1,6 +1,6 @@
-﻿using MyClinic.Common.Events;
-using MyClinic.Common.Results;
+﻿using MyClinic.Common.Results;
 using MyClinic.Common.Entities;
+using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Procedures.Domain.Entities;
 

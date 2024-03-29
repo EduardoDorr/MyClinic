@@ -5,11 +5,15 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
+using MyClinic.Common;
+using MyClinic.Common.Options;
+
 using MyClinic.API.Middlewares;
 using MyClinic.Doctors.Integration;
 using MyClinic.Patients.Integration;
 using MyClinic.Procedures.Integration;
 using MyClinic.Appointments.Integration;
+using MyClinic.Notifications.Integration;
 
 namespace MyClinic.API.Configurations;
 
@@ -25,10 +29,14 @@ public static class ServiceConfiguration
         });
 
         // Add modules
+        builder.Services.AddCommonModule(builder.Configuration);
         builder.Services.AddPatientModule(builder.Configuration);
         builder.Services.AddDoctorModule(builder.Configuration);
         builder.Services.AddProcedureModule(builder.Configuration);
         builder.Services.AddAppointmentModule(builder.Configuration);
+        builder.Services.AddNotificationModule(builder.Configuration);
+
+        builder.Services.ConfigureOptions(builder.Configuration);
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
@@ -85,5 +93,10 @@ public static class ServiceConfiguration
         Log.Logger = new LoggerConfiguration()
            .ReadFrom.Configuration(builder.Configuration)
            .CreateLogger();
+    }
+
+    private static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<RabbitMqConfigurationOptions>(options => configuration.GetSection(OptionsConstants.RabbitMQConfigurationSection).Bind(options));
     }
 }

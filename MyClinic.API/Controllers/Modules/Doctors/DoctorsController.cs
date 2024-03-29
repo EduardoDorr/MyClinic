@@ -44,7 +44,7 @@ public class DoctorsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResult<DoctorViewModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAll(Guid id, [FromQuery] GetDoctorsQuery model)
+    public async Task<IActionResult> GetAllBySpeciality(Guid id, [FromQuery] GetDoctorsQuery model)
     {
         var query = new GetDoctorsBySpecialityQuery(id, model.Page, model.PageSize);
 

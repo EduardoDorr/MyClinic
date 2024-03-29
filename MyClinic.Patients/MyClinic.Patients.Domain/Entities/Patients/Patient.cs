@@ -1,8 +1,8 @@
-﻿using MyClinic.Common.Events;
-using MyClinic.Common.Results;
+﻿using MyClinic.Common.Results;
 using MyClinic.Common.Entities;
 using MyClinic.Common.ValueObjects;
 using MyClinic.Patients.Domain.Entities.Insurances;
+using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Patients.Domain.Entities.Patients;
 

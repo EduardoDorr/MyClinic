@@ -15,15 +15,13 @@ public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage
                .IsRequired();
 
         builder.Property(p => p.Error)
-               .HasMaxLength(500)
-               .IsRequired();
+               .HasMaxLength(500);
 
         builder.Property(b => b.CreatedAt)
                .HasColumnType("datetime")
                .IsRequired();
 
         builder.Property(b => b.ProcessedAt)
-               .HasColumnType("datetime")
-               .IsRequired();
+               .HasColumnType("datetime");
     }
 }

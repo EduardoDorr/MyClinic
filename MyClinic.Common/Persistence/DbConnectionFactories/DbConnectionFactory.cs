@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MyClinic.Common.Persistence.ConnectionFactories;
+using MyClinic.Common.Persistence.DbConnectionFactories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyClinic.Common.Persistence.ConnectionFactories;
+namespace MyClinic.Common.Persistence.DbConnectionFactories;
 
-public static class ConnectionFactory
+public static class DbConnectionFactory
 {
     public static string GetConnectionString(this IConfiguration configuration)
     {
