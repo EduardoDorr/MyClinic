@@ -2,24 +2,29 @@
 using System.Net.Mime;
 using System.Text.Json;
 
+using Microsoft.Extensions.Options;
+
+using MyClinic.Common.Options;
 using MyClinic.Common.Results;
 using MyClinic.Common.Results.Errors;
 using MyClinic.Common.IntegrationsEvents;
 
 namespace MyClinic.Notifications.Integration.EmailApi;
 
-public sealed class WebMailApi : IEmailApi
+public sealed class WebMailApi : IWebMailApi
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly WebMailApiOptions _webMailApiOptions;
 
-    public WebMailApi(IHttpClientFactory httpClientFactory)
+    public WebMailApi(IHttpClientFactory httpClientFactory, IOptions<WebMailApiOptions> webMailApiOptions)
     {
         _httpClientFactory = httpClientFactory;
+        _webMailApiOptions = webMailApiOptions.Value;
     }
 
     public async Task<Result> SendEmail(SendEmailEvent email)
     {
-        using var httpClient = _httpClientFactory.CreateClient("WebMailApi");
+        using var httpClient = _httpClientFactory.CreateClient(_webMailApiOptions.ApiName);
 
         var json =
             new StringContent(
@@ -28,7 +33,7 @@ public sealed class WebMailApi : IEmailApi
                 MediaTypeNames.Application.Json);
 
         using HttpResponseMessage httpResponse =
-            await httpClient.PostAsync("email", json);
+            await httpClient.PostAsync(_webMailApiOptions.EmailEndpoint, json);
 
         if (httpResponse.IsSuccessStatusCode)
             return Result.Ok();

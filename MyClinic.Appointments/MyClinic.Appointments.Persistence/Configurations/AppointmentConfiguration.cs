@@ -39,6 +39,10 @@ internal class AppointmentConfiguration : BaseEntityConfiguration<Appointment>
         builder.Property(d => d.CancellationDate)
             .HasColumnType("datetime");
 
+        builder.Property(d => d.Cost)
+            .HasColumnType("numeric(8,2)")
+            .IsRequired();
+
         builder.Property(d => d.Type)
             .IsRequired();
 

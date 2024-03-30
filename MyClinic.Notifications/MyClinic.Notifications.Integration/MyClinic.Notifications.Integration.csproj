@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.67.0.3297" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
@@ -14,10 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MyClinic.Common\MyClinic.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EmailApi\" />
   </ItemGroup>
 
 </Project>

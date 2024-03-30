@@ -1,21 +1,22 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 using MyClinic.Common.Options;
-using MyClinic.Common.IntegrationsEvents;
+using MyClinic.Common.MessageBus;
 
-using MyClinic.Notifications.Integration.EmailApi;
+using MyClinic.Notifications.Integration.GoogleCalendar;
+using MyClinic.Notifications.Integration.IntegrationEvents;
 
 namespace MyClinic.Notifications.Integration.Consumers;
 
-public sealed class SendEmailEventConsumerService : BackgroundService
+public sealed class AppointmentCreatedEventConsumerService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConnection _connection;
@@ -25,10 +26,11 @@ public sealed class SendEmailEventConsumerService : BackgroundService
 
     private readonly string _queue;
 
-    public SendEmailEventConsumerService(IServiceProvider serviceProvider, IOptions<RabbitMqConfigurationOptions> rabbitMqConfiguration)
+    public AppointmentCreatedEventConsumerService(
+        IServiceProvider serviceProvider,
+        IOptions<RabbitMqConfigurationOptions> rabbitMqConfiguration)
     {
         _serviceProvider = serviceProvider;
-
         _rabbitMqConfigurationOptions = rabbitMqConfiguration.Value;
 
         _connectionFactory = new ConnectionFactory
@@ -39,7 +41,7 @@ public sealed class SendEmailEventConsumerService : BackgroundService
             Password = _rabbitMqConfigurationOptions.Password
         };
 
-        _queue = nameof(SendEmailEvent);
+        _queue = nameof(AppointmentCreatedEvent);
 
         _connection = _connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
@@ -62,9 +64,9 @@ public sealed class SendEmailEventConsumerService : BackgroundService
         {
             var bytes = eventArgs.Body.ToArray();
             var eventMessage = Encoding.UTF8.GetString(bytes);
-            var sendEmailEvent = JsonSerializer.Deserialize<SendEmailEvent>(eventMessage);
+            var appointmentCreatedEvent = JsonSerializer.Deserialize<AppointmentCreatedEvent>(eventMessage);
 
-            await SendEmail(sendEmailEvent);
+            await CreateEvent(appointmentCreatedEvent);
 
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         };
@@ -79,13 +81,31 @@ public sealed class SendEmailEventConsumerService : BackgroundService
         return Task.CompletedTask;
     }
 
-    private async Task SendEmail(SendEmailEvent sendEmailEvent)
+    private async Task CreateEvent(AppointmentCreatedEvent appointmentCreatedEvent)
     {
-        using (var scope = _serviceProvider.CreateAsyncScope())
-        {
-            var emailApi = scope.ServiceProvider.GetRequiredService<IWebMailApi>();
+        using var scope = _serviceProvider.CreateAsyncScope();
+        
+        var googleCalendarService = scope.ServiceProvider.GetRequiredService<IGoogleCalendarService>();
+        var messageBusService = scope.ServiceProvider.GetRequiredService<IMessageBusProducerService>();
 
-            await emailApi.SendEmail(sendEmailEvent);
-        }
+        var attendees = new List<string>
+            {
+                appointmentCreatedEvent.Patient.Email,
+                appointmentCreatedEvent.Doctor.Email
+            };
+
+        var eventRequest =
+            new GoogleCalendarEventRequest(
+                $"Agendamento de consulta {appointmentCreatedEvent.Procedure.Name}",
+                $"Agendamento de consulta {appointmentCreatedEvent.Procedure.Name}",
+                appointmentCreatedEvent.Procedure.StartDate,
+                appointmentCreatedEvent.Procedure.EndDate,
+                attendees);
+
+        var eventCreated = await googleCalendarService.CreateEvent(eventRequest);
+
+        var appointmentScheduledEvent = new AppointmentScheduledEvent(appointmentCreatedEvent.AppointmentId, eventCreated.Id);
+
+        messageBusService.Publish(nameof(AppointmentScheduledEvent), appointmentScheduledEvent);
     }
 }

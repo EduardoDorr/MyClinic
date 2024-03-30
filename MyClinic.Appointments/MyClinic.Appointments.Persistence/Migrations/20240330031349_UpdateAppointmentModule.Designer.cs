@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyClinic.Appointments.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using MyClinic.Appointments.Persistence.Contexts;
 namespace MyClinic.Appointments.Persistence.Migrations
 {
     [DbContext(typeof(MyClinicAppointmentDbContext))]
-    partial class MyClinicAppointmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240330031349_UpdateAppointmentModule")]
+    partial class UpdateAppointmentModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

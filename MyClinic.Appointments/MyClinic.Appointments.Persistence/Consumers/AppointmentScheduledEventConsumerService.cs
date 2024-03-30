@@ -1,21 +1,21 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using MediatR;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 using MyClinic.Common.Options;
-using MyClinic.Common.IntegrationsEvents;
 
-using MyClinic.Notifications.Integration.EmailApi;
+using MyClinic.Appointments.Domain.Events;
 
-namespace MyClinic.Notifications.Integration.Consumers;
+namespace MyClinic.Appointments.Persistence.Consumers;
 
-public sealed class SendEmailEventConsumerService : BackgroundService
+public sealed class AppointmentScheduledEventConsumerService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConnection _connection;
@@ -25,10 +25,11 @@ public sealed class SendEmailEventConsumerService : BackgroundService
 
     private readonly string _queue;
 
-    public SendEmailEventConsumerService(IServiceProvider serviceProvider, IOptions<RabbitMqConfigurationOptions> rabbitMqConfiguration)
+    public AppointmentScheduledEventConsumerService(
+        IServiceProvider serviceProvider,
+        IOptions<RabbitMqConfigurationOptions> rabbitMqConfiguration)
     {
         _serviceProvider = serviceProvider;
-
         _rabbitMqConfigurationOptions = rabbitMqConfiguration.Value;
 
         _connectionFactory = new ConnectionFactory
@@ -39,7 +40,7 @@ public sealed class SendEmailEventConsumerService : BackgroundService
             Password = _rabbitMqConfigurationOptions.Password
         };
 
-        _queue = nameof(SendEmailEvent);
+        _queue = nameof(AppointmentScheduledEvent);
 
         _connection = _connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
@@ -62,9 +63,9 @@ public sealed class SendEmailEventConsumerService : BackgroundService
         {
             var bytes = eventArgs.Body.ToArray();
             var eventMessage = Encoding.UTF8.GetString(bytes);
-            var sendEmailEvent = JsonSerializer.Deserialize<SendEmailEvent>(eventMessage);
+            var appointmentScheduledEvent = JsonSerializer.Deserialize<AppointmentScheduledEvent>(eventMessage);
 
-            await SendEmail(sendEmailEvent);
+            await UpdateAppointmentStatus(appointmentScheduledEvent);
 
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         };
@@ -79,13 +80,13 @@ public sealed class SendEmailEventConsumerService : BackgroundService
         return Task.CompletedTask;
     }
 
-    private async Task SendEmail(SendEmailEvent sendEmailEvent)
+    private async Task UpdateAppointmentStatus(AppointmentScheduledEvent appointmentScheduledEvent)
     {
         using (var scope = _serviceProvider.CreateAsyncScope())
         {
-            var emailApi = scope.ServiceProvider.GetRequiredService<IWebMailApi>();
+            var publisher = scope.ServiceProvider.GetRequiredService<IPublisher>();
 
-            await emailApi.SendEmail(sendEmailEvent);
+            await publisher.Publish(appointmentScheduledEvent);
         }
     }
 }

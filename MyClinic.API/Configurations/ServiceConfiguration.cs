@@ -28,6 +28,8 @@ public static class ServiceConfiguration
             loggingBuilder.AddSerilog();
         });
 
+        builder.Services.ConfigureOptions(builder.Configuration);
+
         // Add modules
         builder.Services.AddCommonModule(builder.Configuration);
         builder.Services.AddPatientModule(builder.Configuration);
@@ -36,7 +38,6 @@ public static class ServiceConfiguration
         builder.Services.AddAppointmentModule(builder.Configuration);
         builder.Services.AddNotificationModule(builder.Configuration);
 
-        builder.Services.ConfigureOptions(builder.Configuration);
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
@@ -97,6 +98,8 @@ public static class ServiceConfiguration
 
     private static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<WebMailApiOptions>(options => configuration.GetSection(OptionsConstants.WebMailApiSection).Bind(options));
+        services.Configure<GoogleCalendarOptions>(options => configuration.GetSection(OptionsConstants.GoogleCalendarSection).Bind(options));
         services.Configure<RabbitMqConfigurationOptions>(options => configuration.GetSection(OptionsConstants.RabbitMQConfigurationSection).Bind(options));
     }
 }

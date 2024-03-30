@@ -10,6 +10,7 @@ using MyClinic.Appointments.Persistence.Repositories;
 using MyClinic.Appointments.Persistence.Interceptors;
 using MyClinic.Appointments.Persistence.BackgroundJobs;
 using MyClinic.Common.Persistence.DbConnectionFactories;
+using MyClinic.Appointments.Persistence.Consumers;
 
 namespace MyClinic.Appointments.Integration.DependencyInjections;
 
@@ -21,7 +22,8 @@ public static class PersistenceModule
                 .AddInterceptors()
                 .AddRepositories()
                 .AddUnitOfWork()
-                .AddBackgroundJobs();
+                .AddBackgroundJobs()
+                .AddConsumers();
 
         return services;
     }
@@ -64,6 +66,13 @@ public static class PersistenceModule
     private static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
     {
         services.AddHostedService<ProcessOutboxMessagesJob>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddConsumers(this IServiceCollection services)
+    {
+        services.AddHostedService<AppointmentScheduledEventConsumerService>();
 
         return services;
     }

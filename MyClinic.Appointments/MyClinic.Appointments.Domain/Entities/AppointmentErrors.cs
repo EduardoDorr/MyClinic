@@ -22,6 +22,9 @@ public record AppointmentErrors(string Code, string Message, ErrorType Type) : I
     public static readonly Error MinimumSchedulingNotice =
         new("Appointment.MinimumSchedulingNotice", "Appointment does not respect minimum scheduling notice from procedure", ErrorType.Conflict);
 
+    public static readonly Error DoctorDoesNotHaveSpeciality =
+        new("Appointment.DoctorDoesNotHaveSpeciality", "Doctor does not have the selected speciality", ErrorType.Validation);
+
     public static readonly Error DoctorHasNoSchedule =
         new("Appointment.DoctorHasNoSchedule", "Doctor has no schedule to appointment's start date", ErrorType.Conflict);
 
@@ -29,10 +32,10 @@ public record AppointmentErrors(string Code, string Message, ErrorType Type) : I
         new("Appointment.AlreadyCanceled", "Appointment is already canceled", ErrorType.Conflict);
 
     public static readonly Error CannotBeCanceled =
-        new("Appointment.CannotBeCanceled", "Appointment only can be canceled while in scheduled, pending or confirmed status", ErrorType.Validation);
+        new("Appointment.CannotBeCanceled", "Appointment only can be canceled while in scheduled or pending status", ErrorType.Validation);
 
     public static readonly Error CannotBeRescheduled =
-        new("Appointment.CannotBeRescheduled", "Appointment only can be recheduled while in scheduled, pending or confirmed status", ErrorType.Validation);
+        new("Appointment.CannotBeRescheduled", "Appointment only can be recheduled while in scheduled or pending status", ErrorType.Validation);
 
     public static readonly Error EndDateIsInvalid =
         new("Appointment.EndDateIsInvalid", "Appointment's End Date is earlier than the Start Date", ErrorType.Validation);

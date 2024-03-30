@@ -57,6 +57,11 @@ public sealed class CreateAppointmentCommandHandler : IRequestHandler<CreateAppo
         if (!procedureResult.Success)
             return Result.Fail<Guid>(procedureResult.Errors);
 
+        var hasSpeciality = doctorResult.Value.Specialities.Any(s => s == procedureResult.Value.Speciality.Name);
+
+        if (!hasSpeciality)
+            return Result.Fail<Guid>(AppointmentErrors.DoctorDoesNotHaveSpeciality);
+
         var minimumSchedulingDate = DateTime.Now.AddDays(procedureResult.Value.MinimumSchedulingNotice);
 
         if (minimumSchedulingDate.CompareTo(request.StartDate) > 0)
@@ -75,11 +80,14 @@ public sealed class CreateAppointmentCommandHandler : IRequestHandler<CreateAppo
         if (!isUnique)
             return Result.Fail<Guid>(AppointmentErrors.IsNotUnique);
 
+        var cost = GetDiscount(patientResult.Value?.Insurance?.BasicDiscount) * procedureResult.Value.Cost;
+
         var appointmentResult = Appointment.Create
             (
                 request.PatientId,
                 request.DoctorId,
                 request.ProcedureId,
+                cost,
                 request.StartDate,
                 endDate,
                 request.Type
@@ -95,14 +103,15 @@ public sealed class CreateAppointmentCommandHandler : IRequestHandler<CreateAppo
         var patientName = $"{patientResult.Value.FirstName} {patientResult.Value.LastName}";
         var doctorName = $"{doctorResult.Value.FirstName} {doctorResult.Value.LastName}";
 
-        RaiseAppointmentScheduledEvent(
+        RaiseAppointmentCreatedEvent(
             appointment,
             patientName,
             patientResult.Value.Email,
             doctorName,
             doctorResult.Value.Email,
             procedureResult.Value.Name,
-            request.StartDate);
+            request.StartDate,
+            endDate);
 
         var created = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
 
@@ -112,21 +121,30 @@ public sealed class CreateAppointmentCommandHandler : IRequestHandler<CreateAppo
         return Result.Ok(appointment.Id);
     }
 
-    private static void RaiseAppointmentScheduledEvent(
+    private static decimal GetDiscount(decimal? discount)
+    {
+        if (discount is null) 
+            return 1.0M;
+
+        return (100 - discount.Value) / 100M;
+    }
+
+    private static void RaiseAppointmentCreatedEvent(
         Appointment appointment,
         string patientName,
         string patientEmail,
         string doctorName,
         string doctorEmail,
         string procedureName,
-        DateTime startDate)
+        DateTime startDate,
+        DateTime endDate)
     {
         var patientEvent = new PersonEvent(patientName, patientEmail);
         var doctorEvent = new PersonEvent(doctorName, doctorEmail);
-        var procedureEvent = new ProcedureEvent(procedureName, startDate);
+        var procedureEvent = new ProcedureEvent(procedureName, startDate, endDate);
 
         var appointmentScheduledEvent =
-            new AppointmentScheduledEvent(appointment.Id, patientEvent, doctorEvent, procedureEvent);
+            new AppointmentCreatedEvent(appointment.Id, patientEvent, doctorEvent, procedureEvent);
 
         appointment.RaiseEvent(appointmentScheduledEvent);
     }

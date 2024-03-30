@@ -6,34 +6,34 @@ using MyClinic.Appointments.Domain.Events;
 
 namespace MyClinic.Appointments.Application.Appointments.IntegrationEvents;
 
-public sealed class AppointmentRescheduledEventHandler : IDomainEventHandler<AppointmentUpdatedEvent>
+public sealed class AppointmentCreatedEventHandler : IDomainEventHandler<AppointmentCreatedEvent>
 {
     private readonly IMessageBusProducerService _messageBusService;
 
-    public AppointmentRescheduledEventHandler(IMessageBusProducerService messageBusService)
+    public AppointmentCreatedEventHandler(IMessageBusProducerService messageBusService)
     {
         _messageBusService = messageBusService;
     }
 
-    public Task Handle(AppointmentUpdatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(AppointmentCreatedEvent notification, CancellationToken cancellationToken)
     {
         var sendEmailEvent =
             new SendEmailEvent(
                 nameof(AppointmentCreatedEvent),
                 notification.Patient.Email,
-                "Confirmação de Alteração de Consulta Médica",
+                "Confirmação de Consulta Médica",
                 CreateEmailMessage(notification),
                 null
             );
 
         _messageBusService.Publish(nameof(SendEmailEvent), sendEmailEvent);
 
-        _messageBusService.Publish(nameof(AppointmentUpdatedEvent), notification);
+        _messageBusService.Publish(nameof(AppointmentCreatedEvent), notification);
 
         return Task.CompletedTask;
     }
 
-    private static string CreateEmailMessage(AppointmentUpdatedEvent notification)
+    private static string CreateEmailMessage(AppointmentCreatedEvent notification)
     {
         var message = $@"
             <!DOCTYPE html>
@@ -72,13 +72,14 @@ public sealed class AppointmentRescheduledEventHandler : IDomainEventHandler<App
             </head>
             <body>
                 <div class=""container"">
-                    <h1>Confirmação de Alteração de Consulta Médica</h1>
+                    <h1>Confirmação de Consulta Médica</h1>
                     <p>Prezado(a) {notification.Patient.Name},</p>
-                    <p>Gostaríamos de confirmar que o agendamento da sua consulta médica com o Dr. {notification.Doctor.Name} para o procedimento de {notification.Procedure.Name} foi reagendado. Seguem os novos detalhes:</p>
+                    <p>Gostaríamos de confirmar que a sua consulta médica com o Dr. {notification.Doctor.Name} para o procedimento de {notification.Procedure.Name} está agendada na seguinte data e hora:</p>
                     <ul>
                         <li><strong>Data:</strong> {notification.Procedure.StartDate:D}</li>
                         <li><strong>Hora de Início:</strong> {notification.Procedure.StartDate:t}</li>
                     </ul>
+                    <p>Por favor, confirme o evento na sua agenda!</p>
                     <p>Por favor, chegue com 15 minutos de antecedência. Em caso de qualquer dúvida ou se precisar reagendar, entre em contato conosco o mais breve possível.</p>
                     <p>Agradecemos pela sua confiança e estamos à disposição para qualquer necessidade.</p>
                     <div class=""footer"">
@@ -90,5 +91,4 @@ public sealed class AppointmentRescheduledEventHandler : IDomainEventHandler<App
 
         return message;
     }
-
 }

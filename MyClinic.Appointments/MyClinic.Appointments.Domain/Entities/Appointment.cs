@@ -9,6 +9,8 @@ public class Appointment : BaseEntity
     public Guid PatientId { get; private set; }
     public Guid DoctorId { get; private set; }
     public Guid ProcedureId { get; private set; }
+    public string? CalenderEventId { get; private set; }
+    public decimal Cost { get; private set; }
     public DateTime ScheduledStartDate { get; private set; }
     public DateTime ScheduledEndDate { get; private set; }
     public DateTime? RealStartDate { get; private set; }
@@ -23,6 +25,7 @@ public class Appointment : BaseEntity
         Guid patientId,
         Guid doctorId,
         Guid procedureId,
+        decimal cost,
         DateTime startDate,
         DateTime endDate,
         AppointmentType type)
@@ -30,17 +33,19 @@ public class Appointment : BaseEntity
         PatientId = patientId;
         DoctorId = doctorId;
         ProcedureId = procedureId;
+        Cost = cost;
         ScheduledStartDate = startDate;
         ScheduledEndDate = endDate;
         Type = type;
 
-        Status = AppointmentStatus.Scheduled;
+        Status = AppointmentStatus.Pending;
     }
 
     public static Result<Appointment> Create(
         Guid patientId,
         Guid doctorId,
         Guid procedureId,
+        decimal cost,
         DateTime scheduledStartDate,
         DateTime scheduledEndDate,
         AppointmentType type)
@@ -50,6 +55,7 @@ public class Appointment : BaseEntity
                 patientId,
                 doctorId,
                 procedureId,
+                cost,
                 scheduledStartDate,
                 scheduledEndDate,
                 type);
@@ -68,6 +74,9 @@ public class Appointment : BaseEntity
     private void SetCancellationDate() =>
         CancellationDate = DateTime.Now;
 
+    private void SetCalendarEventId(string calendarEventId) =>
+        CalenderEventId = calendarEventId;
+
     private void SetRealStartDate(DateTime realStartDate) =>
         RealStartDate = realStartDate;
 
@@ -77,29 +86,30 @@ public class Appointment : BaseEntity
     private void SetStatus(AppointmentStatus status) =>
        Status = status;
 
-    public Result SetPending()
-    {
-        if (Status is not AppointmentStatus.Scheduled)
-            return Result.Fail(AppointmentErrors.StatusDoesNotMatchMethod);
-
-        SetStatus(AppointmentStatus.Pending);
-
-        return Result.Ok();
-    }
-
-    public Result Confirm()
+    public Result Scheduled(string calenderEventId)
     {
         if (Status is not AppointmentStatus.Pending)
             return Result.Fail(AppointmentErrors.StatusDoesNotMatchMethod);
 
-        SetStatus(AppointmentStatus.Confirmed);
+        SetStatus(AppointmentStatus.Scheduled);
+        SetCalendarEventId(calenderEventId);
 
         return Result.Ok();
     }
 
+    //public Result Confirm()
+    //{
+    //    if (Status is not AppointmentStatus.Pending)
+    //        return Result.Fail(AppointmentErrors.StatusDoesNotMatchMethod);
+
+    //    SetStatus(AppointmentStatus.Confirmed);
+
+    //    return Result.Ok();
+    //}
+
     public Result Start(DateTime startDate)
     {
-        if (Status is not AppointmentStatus.Confirmed)
+        if (Status is not AppointmentStatus.Scheduled)
             return Result.Fail(AppointmentErrors.StatusDoesNotMatchMethod);
 
         SetStatus(AppointmentStatus.InProgress);
@@ -124,7 +134,7 @@ public class Appointment : BaseEntity
 
     public Result NotAttended()
     {
-        if (Status is not (AppointmentStatus.Pending or AppointmentStatus.Confirmed))
+        if (Status is not (AppointmentStatus.Pending or AppointmentStatus.Scheduled))
             return Result.Fail(AppointmentErrors.StatusDoesNotMatchMethod);
 
         SetStatus(AppointmentStatus.NotAttended);
@@ -137,7 +147,7 @@ public class Appointment : BaseEntity
         if (Status is (AppointmentStatus.CanceledByPatient or AppointmentStatus.CanceledByDoctor))
             return Result.Fail<Appointment>(AppointmentErrors.AlreadyCanceled);
 
-        if (Status is not (AppointmentStatus.Scheduled or AppointmentStatus.Pending or AppointmentStatus.Confirmed))
+        if (Status is not (AppointmentStatus.Scheduled or AppointmentStatus.Pending))
             return Result.Fail<Appointment>(AppointmentErrors.CannotBeRescheduled);
 
         SetStatus(AppointmentStatus.Rescheduled);
@@ -148,6 +158,7 @@ public class Appointment : BaseEntity
                 PatientId,
                 DoctorId,
                 ProcedureId,
+                Cost,
                 newStartDate,
                 newEndDate,
                 Type);
@@ -160,7 +171,7 @@ public class Appointment : BaseEntity
         if (Status is (AppointmentStatus.CanceledByPatient or AppointmentStatus.CanceledByDoctor))
             return Result.Fail(AppointmentErrors.AlreadyCanceled);
 
-        if (Status is not (AppointmentStatus.Scheduled or AppointmentStatus.Pending or AppointmentStatus.Confirmed))
+        if (Status is not (AppointmentStatus.Scheduled or AppointmentStatus.Pending))
             return Result.Fail(AppointmentErrors.CannotBeCanceled);
 
         var status = byDoctor ? AppointmentStatus.CanceledByDoctor : AppointmentStatus.CanceledByPatient;

@@ -92,14 +92,15 @@ public sealed class UpdateAppointmentCommandHandler : IRequestHandler<UpdateAppo
         var patientName = $"{patientResult.Value.FirstName} {patientResult.Value.LastName}";
         var doctorName = $"{doctorResult.Value.FirstName} {doctorResult.Value.LastName}";
 
-        RaiseAppointmentRescheduledEvent(
+        RaiseAppointmentUpdatedEvent(
             currentAppointment,
             patientName,
             patientResult.Value.Email,
             doctorName,
             doctorResult.Value.Email,
             procedureResult.Value.Name,
-            request.StartDate);
+            request.StartDate,
+            endDate);
 
         var updated = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
 
@@ -109,21 +110,22 @@ public sealed class UpdateAppointmentCommandHandler : IRequestHandler<UpdateAppo
         return Result.Ok(newAppointment.Id);
     }
 
-    private static void RaiseAppointmentRescheduledEvent(
+    private static void RaiseAppointmentUpdatedEvent(
         Appointment appointment,
         string patientName,
         string patientEmail,
         string doctorName,
         string doctorEmail,
         string procedureName,
-        DateTime startDate)
+        DateTime startDate,
+        DateTime endDate)
     {
         var patientEvent = new PersonEvent(patientName, patientEmail);
         var doctorEvent = new PersonEvent(doctorName, doctorEmail);
-        var procedureEvent = new ProcedureEvent(procedureName, startDate);
+        var procedureEvent = new ProcedureEvent(procedureName, startDate, endDate);
 
         var appointmentScheduledEvent =
-            new AppointmentRescheduledEvent(appointment.Id, patientEvent, doctorEvent, procedureEvent);
+            new AppointmentUpdatedEvent(appointment.Id, patientEvent, doctorEvent, procedureEvent);
 
         appointment.RaiseEvent(appointmentScheduledEvent);
     }

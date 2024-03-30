@@ -3,7 +3,7 @@ using MyClinic.Common.IntegrationsEvents;
 
 namespace MyClinic.Notifications.Integration.EmailApi;
 
-public interface IEmailApi
+public interface IWebMailApi
 {
     Task<Result> SendEmail(SendEmailEvent email);
 }

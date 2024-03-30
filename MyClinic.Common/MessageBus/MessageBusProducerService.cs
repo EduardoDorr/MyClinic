@@ -14,9 +14,9 @@ public class MessageBusProducerService : IMessageBusProducerService
     private readonly ConnectionFactory _connectionFactory;
     private readonly RabbitMqConfigurationOptions _rabbitMqConfigurationOptions;
 
-    public MessageBusProducerService(IOptions<RabbitMqConfigurationOptions> rabbitMqConfiguration)
+    public MessageBusProducerService(IOptions<RabbitMqConfigurationOptions> rabbitMqConfigurationOptions)
     {
-        _rabbitMqConfigurationOptions = rabbitMqConfiguration.Value;
+        _rabbitMqConfigurationOptions = rabbitMqConfigurationOptions.Value;
 
         _connectionFactory = new ConnectionFactory
         {

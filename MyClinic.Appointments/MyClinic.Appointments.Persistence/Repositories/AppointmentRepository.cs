@@ -55,6 +55,8 @@ public class AppointmentRepository : IAppointmentRepository
             await _dbContext.Appointments
             .Where(s => s.PatientId == patientId ||
                         s.DoctorId == doctorId)
+            .Where(s => s.Status != AppointmentStatus.CanceledByPatient &&
+                        s.Status != AppointmentStatus.CanceledByDoctor)
             .AnyAsync(s => (startDate <= s.ScheduledStartDate && endDate > s.ScheduledStartDate) ||
                            (startDate < s.ScheduledEndDate && endDate >= s.ScheduledEndDate) ||
                            (startDate >= s.ScheduledStartDate && endDate <= s.ScheduledEndDate) ||

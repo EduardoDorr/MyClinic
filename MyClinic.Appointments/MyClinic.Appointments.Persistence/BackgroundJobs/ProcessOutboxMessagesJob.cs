@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 using MediatR;
 using Newtonsoft.Json;
+
+using MyClinic.Common.DomainEvents;
 using MyClinic.Common.Persistence.Outbox;
 
 using MyClinic.Appointments.Persistence.Contexts;
-using MyClinic.Common.DomainEvents;
 
 namespace MyClinic.Appointments.Persistence.BackgroundJobs;
 
