@@ -16,7 +16,7 @@ using MyClinic.Doctors.Application.Doctors.DeleteDoctor;
 
 namespace MyClinic.API.Controllers.Modules.Doctors;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class DoctorsController : ControllerBase
 {

@@ -11,7 +11,7 @@ using MyClinic.Patients.Application.Insurances.CreateInsurance;
 
 namespace MyClinic.API.Controllers.Modules.Patients;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class InsurancesController : ControllerBase
 {

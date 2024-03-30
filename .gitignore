@@ -34,6 +34,8 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+[Cc]redential/
+[Tt]oken.json/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

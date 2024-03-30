@@ -66,6 +66,7 @@ public static class PersistenceModule
     private static IServiceCollection AddBackgroundJobs(this IServiceCollection services)
     {
         services.AddHostedService<ProcessOutboxMessagesJob>();
+        services.AddHostedService<AppointmentDayBeforeNotificationJob>();
 
         return services;
     }

@@ -96,8 +96,8 @@ public sealed class AppointmentCreatedEventConsumerService : BackgroundService
 
         var eventRequest =
             new GoogleCalendarEventRequest(
-                $"Agendamento de consulta {appointmentCreatedEvent.Procedure.Name}",
-                $"Agendamento de consulta {appointmentCreatedEvent.Procedure.Name}",
+                $"Agendamento de consulta: {appointmentCreatedEvent.Procedure.Name}",
+                $"Agendamento de consulta: {appointmentCreatedEvent.Procedure.Name}",
                 appointmentCreatedEvent.Procedure.StartDate,
                 appointmentCreatedEvent.Procedure.EndDate,
                 attendees);

@@ -14,7 +14,7 @@ using MyClinic.Procedures.Application.Procedures.DeleteProcedure;
 
 namespace MyClinic.API.Controllers.Modules.Procedures;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class ProceduresController : ControllerBase
 {

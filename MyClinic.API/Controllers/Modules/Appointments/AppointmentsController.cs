@@ -17,7 +17,7 @@ using MyClinic.Appointments.Application.Appointments.DeleteAppointment;
 namespace MyClinic.API.Controllers.Modules.Appointments
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AppointmentsController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;

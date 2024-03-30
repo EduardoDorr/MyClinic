@@ -15,7 +15,7 @@ using MyClinic.Patients.Application.Patients.DeletePatient;
 namespace MyClinic.API.Controllers.Modules.Patients
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class PatientsController : ControllerBase
     {
         private readonly IPatientService _patientService;

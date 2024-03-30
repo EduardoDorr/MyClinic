@@ -74,7 +74,7 @@ public sealed class AppointmentRescheduledEventHandler : IDomainEventHandler<App
                 <div class=""container"">
                     <h1>Confirmação de Alteração de Consulta Médica</h1>
                     <p>Prezado(a) {notification.Patient.Name},</p>
-                    <p>Gostaríamos de confirmar que o agendamento da sua consulta médica com o Dr. {notification.Doctor.Name} para o procedimento de {notification.Procedure.Name} foi reagendado. Seguem os novos detalhes:</p>
+                    <p>Gostaríamos de confirmar que o agendamento da sua consulta médica com o(a) Dr(a). {notification.Doctor.Name} para o procedimento de {notification.Procedure.Name} foi reagendado. Seguem os novos detalhes:</p>
                     <ul>
                         <li><strong>Data:</strong> {notification.Procedure.StartDate:D}</li>
                         <li><strong>Hora de Início:</strong> {notification.Procedure.StartDate:t}</li>

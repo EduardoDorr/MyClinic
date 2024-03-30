@@ -1,34 +1,31 @@
 ﻿using MyClinic.Common.MessageBus;
 using MyClinic.Common.DomainEvents;
-using MyClinic.Common.IntegrationsEvents;
 
 using MyClinic.Appointments.Domain.Events;
 
 namespace MyClinic.Appointments.Application.Appointments.IntegrationEvents;
 
-public sealed class AppointmentCreatedEventHandler : IDomainEventHandler<AppointmentCreatedEvent>
+public sealed class AppointmentNotificationEventHandler : IDomainEventHandler<AppointmentNotificationEvent>
 {
     private readonly IMessageBusProducerService _messageBusService;
 
-    public AppointmentCreatedEventHandler(IMessageBusProducerService messageBusService)
+    public AppointmentNotificationEventHandler(IMessageBusProducerService messageBusService)
     {
         _messageBusService = messageBusService;
     }
 
-    public Task Handle(AppointmentCreatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(AppointmentNotificationEvent notification, CancellationToken cancellationToken)
     {
-        var sendEmailEvent =
-            new SendEmailEvent(
-                nameof(AppointmentCreatedEvent),
-                notification.Patient.Email,
-                "Confirmação de Consulta Médica",
-                CreateEmailMessage(notification),
-                null
-            );
+        //var sendEmailEvent =
+        //    new SendEmailEvent(
+        //        nameof(AppointmentCreatedEvent),
+        //        notification.Patient.Email,
+        //        "Confirmação de Consulta Médica",
+        //        CreateEmailMessage(notification),
+        //        null
+        //    );
 
-        _messageBusService.Publish(nameof(SendEmailEvent), sendEmailEvent);
-
-        _messageBusService.Publish(nameof(AppointmentCreatedEvent), notification);
+        //_messageBusService.Publish(nameof(SendEmailEvent), sendEmailEvent);
 
         return Task.CompletedTask;
     }

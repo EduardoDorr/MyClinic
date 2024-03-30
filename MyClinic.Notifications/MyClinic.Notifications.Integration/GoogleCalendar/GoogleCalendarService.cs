@@ -62,7 +62,7 @@ public sealed class GoogleCalendarService : IGoogleCalendarService
         var eventCreated = await services.Events.Insert(@event, _googleCalendarOptions.CalendarId).ExecuteAsync();
 
         return eventCreated;
-    }    
+    }
 
     public async Task<Event> UpdateEvent(Event eventCalendar, DateTime startDate, DateTime endDate)
     {
@@ -92,12 +92,17 @@ public sealed class GoogleCalendarService : IGoogleCalendarService
     private static async Task<CalendarService> ConnectGoogleCalendar(string[] scopes)
     {
         UserCredential credential;
+        //GoogleCredential credential;
 
         var fileFullPath = Path.Combine(Directory.GetCurrentDirectory(), "Credential", "credential.json");
 
         using (var stream = new FileStream(fileFullPath, FileMode.Open, FileAccess.Read))
         {
             var credPath = "token.json";
+
+            //credential =
+            //    (await GoogleCredential.FromStreamAsync(stream, CancellationToken.None))
+            //    .CreateScoped(scopes);
 
             credential = await GoogleWebAuthorizationBroker
                 .AuthorizeAsync(
